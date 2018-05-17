@@ -1,0 +1,6 @@
+# editor files
+/.idea/
+/.vscode/
+
+# generated files
+plg_system_eprivacy.zip
