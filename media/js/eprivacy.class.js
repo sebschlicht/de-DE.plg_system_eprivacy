@@ -20,10 +20,10 @@
             npstorage: null
         };
         var construct = function (options) {
-            if (!$('div.plg_system_eprivacy_module').length && options.displaytype !== 'cookieblocker') {
-                console.log('The EU e-Privacy Directive extension REQUIRES the eprivacy module to be published.');
-                return;
-            }
+            //if (!$('div.plg_system_eprivacy_module').length && options.displaytype !== 'cookieblocker') {
+            //    console.log('The EU e-Privacy Directive extension REQUIRES the eprivacy module to be published.');
+            //    return;
+            //}
             Object.assign(root.vars, options);
             root.vars.npstorage = new npstorage();
             var decline = parseInt(root.getDataValue());
