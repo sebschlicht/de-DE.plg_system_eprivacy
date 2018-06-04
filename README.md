@@ -1,4 +1,4 @@
-# plg_system_eprivacy
+# German Translation Package for plg_system_eprivacy
 
 This is a German localization package of the system plugin from *RicheyWeb*'s [EU ePrivacy directive package](https://www.richeyweb.com/software/joomla/packages/9-eu-e-privacy-directive) for *Joomla!*.
 
