@@ -1,165 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="2.5" type="plugin" group="system" method="upgrade">
-    <name>PLG_SYS_EPRIVACY</name>
-    <author>Michael Richey</author>
-    <creationDate>Jan 2011</creationDate>
-    <copyright>Copyright (C) 2011 Michael Richey. All rights reserved.</copyright>
+    <name>System - EU e-Privacy Directive - Deutsche Sprachdateien</name>
+    <author>Sebastian Schlicht</author>
+    <creationDate>Jun 2018</creationDate>
+    <copyright>Copyright (C) 2018 Sebastian Schlicht. All rights reserved.</copyright>
     <license>GNU General Public License</license>
-    <authorEmail>eprivacy@richeyweb.com</authorEmail>
-    <authorUrl>http://www.richeyweb.com</authorUrl>
-    <version>3.7.3</version>
-    <description>PLG_SYS_EPRIVACY_XML_DESC</description>    
-    <install>
-        <sql>
-            <file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
-        </sql>
-    </install>
-    <uninstall>
-        <sql>
-            <file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
-        </sql>
-    </uninstall>
-    <media folder="media" destination="plg_system_eprivacy">
-        <folder>js</folder>
-        <folder>css</folder>
-    </media>
-    <files>
-        <filename plugin="eprivacy">eprivacy.php</filename>
-        <filename>geoplugin.class.php</filename>
-        <folder>language</folder>
-        <folder>sql</folder>
-    </files>
-    <languages>
-        <language tag="en-GB">language/en-GB/en-GB.plg_system_eprivacy.ini</language>
-        <language tag="en-GB">language/en-GB/en-GB.plg_system_eprivacy.sys.ini</language>
-        <language tag="de-DE">language/de-DE/de-DE.plg_system_eprivacy.ini</language>
-        <language tag="de-DE">language/de-DE/de-DE.plg_system_eprivacy.sys.ini</language>
-    </languages>
-    <config>            
-        <fields name="params" addfieldpath="plugins/system/eprivacy/fields">
-            <fieldset name="basic">
-                <field type="radio" name="displaytype" default="message" label="PLG_SYS_EPRIVACY_DISPLAYTYPE_LABEL" description="PLG_SYS_EPRIVACY_DISPLAYTYPE_DESC">
-                    <option value="message" onclick="plg_system_eprivacy_switchtype(this);">PLG_SYS_EPRIVACY_DISPLAYTYPE_MESSAGE</option>
-                    <option value="confirm" onclick="plg_system_eprivacy_switchtype(this);">PLG_SYS_EPRIVACY_DISPLAYTYPE_CONFIRM</option>
-                    <option value="module" onclick="plg_system_eprivacy_switchtype(this);">PLG_SYS_EPRIVACY_DISPLAYTYPE_MODULE</option>
-                    <option value="modal" onclick="plg_system_eprivacy_switchtype(this);">PLG_SYS_EPRIVACY_DISPLAYTYPE_MODAL</option>
-                    <option value="ribbon" onclick="plg_system_eprivacy_switchtype(this);">PLG_SYS_EPRIVACY_DISPLAYTYPE_RIBBON</option>
-                    <option value="cookieblocker" onclick="plg_system_eprivacy_switchtype(this);">PLG_SYS_EPRIVACY_DISPLAYTYPE_COOKIEBLOCKER</option>
-                </field>
-                <field type="spacer" 
-                       label="PLG_SYS_EPRIVACY_MODULEREQUIRED_LABEL" description="PLG_SYS_EPRIVACY_MODULEREQUIRED_DESC"
-                       showon="displaytype:message[OR]displaytype:confirm[OR]displaytype:module[OR]displaytype:modal[OR]displaytype:ribbon"
-                />
-                <field type="hidden" name="longtermcookie" default="1"/>
-                <field type="text" name="longtermcookieduration" default="30" 
-                       class="validate-numeric"
-                       label="PLG_SYS_EPRIVACY_LONGTERMCOOKIEDURATION_LABEL" description="PLG_SYS_EPRIVACY_LONGTERMCOOKIEDURATION_DESC"
-                       showon="displaytype:message[OR]displaytype:confirm[OR]displaytype:module[OR]displaytype:modal[OR]displaytype:ribbon"
-                />
-                <field type="radio" name="lawlink" default="1" 
-                       label="PLG_SYS_EPRIVACY_LAWLINK_LABEL" description="PLG_SYS_EPRIVACY_LAWLINK_DESC"
-                       showon="displaytype:message[OR]displaytype:module[OR]displaytype:modal[OR]displaytype:ribbon"
-                >
-                    <option value="0">JNo</option>
-                    <option value="1">JYes</option>
-                </field>
-                <field type="text" name="policyurl" default="" 
-                       label="PLG_SYS_EPRIVACY_POLICYURL_LABEL" description="PLG_SYS_EPRIVACY_POLICYURL_DESC"
-                       showon="displaytype:message[OR]displaytype:module[OR]displaytype:modal[OR]displaytype:ribbon"
-                />
-                <field type="radio" name="policytarget" default="_blank" 
-                       label="PLG_SYS_EPRIVACY_POLICYTARGET_LABEL" description="PLG_SYS_EPRIVACY_POLICYTARGET_DESC"
-                       showon="policyurl!:"
-                >
-                    <option value="_self">_self</option>
-                    <option value="_blank">_blank</option>
-                </field>
-            </fieldset>
-            <fieldset name="message">
-                <field type="spacer" label="PLG_SYS_EPRIVACY_NOT_MESSAGETYPE" showon="displaytype!:message"/>
-                <field type="radio" name="messagetype" default="message"
-                       label="PLG_SYS_EPRIVACY_MESSAGETYPE_LABEL" description="PLG_SYS_EPRIVACY_MESSAGETYPE_DESC"
-                       showon="displaytype:message"
-                >
-                    <option value="message">MESSAGE</option>
-                    <option value="notice">NOTICE</option>
-                    <option value="warning">WARNING</option>
-                </field>
-            </fieldset>
-            <fieldset name="module">
-                <field type="spacer" label="PLG_SYS_EPRIVACY_NOT_MODULETYPE" 
-                       showon="displaytype!:message[AND]displaytype!:confirm[AND]displaytype!:module[AND]displaytype!:modal[AND]displaytype!:ribbon"
-                />
-                <field type="radio"  name="usemodulecss" default="1" label="PLG_SYS_EPRIVACY_USEMODULECSS_LABEL" description="PLG_SYS_EPRIVACY_USEMODULECSS_DESC"
-                       showon="displaytype:message[OR]displaytype:confirm[OR]displaytype:module[OR]displaytype:modal[OR]displaytype:ribbon"
-                >
-                    <option value="0">JNo</option>
-                    <option value="1">JYes</option>
-                </field>
-                <field type="textarea" name="modulecss"
-                       label="PLG_SYS_EPRIVACY_MODULECSS_LABEL" description="PLG_SYS_EPRIVACY_MODULECSS_DESC"
-                       default=".plg_system_eprivacy_module .plg_system_eprivacy_message {&#13;&#10;border:1px solid #a9a900;&#13;&#10;background-color:#ffffe1;&#13;&#10;padding:5px;&#13;&#10;}&#13;&#10;.plg_system_eprivacy_module .plg_system_eprivacy_message button.plg_system_eprivacy_agreed {&#13;&#10;color:#000;&#13;&#10;background-color:#0f0;&#13;&#10;}&#13;&#10;.plg_system_eprivacy_module .plg_system_eprivacy_message button.plg_system_eprivacy_declined {&#13;&#10;color:#fff;&#13;&#10;background-color:#f00;&#13;&#10;}&#13;&#10;.plg_system_eprivacy_module div.plg_system_eprivacy_accepted,&#13;&#10;.plg_system_eprivacy_module div.plg_system_eprivacy_declined {&#13;&#10;overflow:hidden;&#13;&#10;border: 1px solid #ccc;&#13;&#10;color: #999;&#13;&#10;vertical-align:middle;&#13;&#10;&#13;&#10;padding:5px;&#13;&#10;}&#13;&#10;.plg_system_eprivacy_module div.plg_system_eprivacy_accepted button,&#13;&#10;&#13;&#10;.plg_system_eprivacy_module div.plg_system_eprivacy_declined button {&#13;&#10;float:right;&#13;&#10;}"
-                       showon="displaytype:message[OR]displaytype:confirm[OR]displaytype:module[OR]displaytype:modal[OR]displaytype:ribbon"
-                />                  
-            </fieldset>
-            <fieldset name="ribbon">
-                <field type="spacer" name="ribbontype" label="PLG_SYS_EPRIVACY_NOT_RIBBONTYPE" showon="displaytype!:ribbon"/>
-                <field type="radio"  name="useribboncss" default="1" 
-                       label="PLG_SYS_EPRIVACY_USERIBBONCSS_LABEL" description="PLG_SYS_EPRIVACY_USERIBBONCSS_DESC"
-                       showon="displaytype:ribbon"
-                >
-                    <option value="0">JNo</option>
-                    <option value="1">JYes</option>
-                </field>
-                <field type="textarea" name="ribboncss"
-                       label="PLG_SYS_EPRIVACY_RIBBONCSS_LABEL" description="PLG_SYS_EPRIVACY_RIBBONCSS_DESC"
-                       default=".activebar-container {&#13;&#10;background-color:#ffffe1;&#13;&#10;border-bottom:1px solid #000000;&#13;&#10;color:#000;&#13;&#10;}&#13;&#10;.activebar-container p {&#13;&#10;margin:5px;&#13;&#10;text-align:left;&#13;&#10;}&#13;&#10;.activebar-container button {&#13;&#10;float:right;&#13;&#10;clear:none;&#13;&#10;margin:5px 10px;&#13;&#10;padding:5px 10px;&#13;&#10;}&#13;&#10;.activebar-container button.decline {&#13;&#10;color:#fff;&#13;&#10;background-color:#f00;&#13;&#10;}&#13;&#10;.activebar-container button.accept {&#13;&#10;color:#000;&#13;&#10;background-color:#0f0;&#13;&#10;}&#13;&#10;.activebar-container ul.links,.activebar-container ul.links li {&#13;&#10;display:block;&#13;&#10;}&#13;&#10;.activebar-container ul.links li {&#13;&#10;margin:0 5px;&#13;&#10;float:left;&#13;&#10;clear:none;&#13;&#10;}"
-                       showon="displaytype:ribbon"
-                />
-                <field type="text" name="ribbonagreeclass"
-                       label="PLG_SYS_EPRIVACY_RIBBONAGREECLASS_LABEL" description="PLG_SYS_EPRIVACY_RIBBONAGREECLASS_DESC"
-                       showon="displaytype:ribbon"
-                />
-                <field type="text" name="ribbondeclineclass"
-                       label="PLG_SYS_EPRIVACY_RIBBONDECLINECLASS_LABEL" description="PLG_SYS_EPRIVACY_RIBBONDECLINECLASS_DESC"
-                       showon="displaytype:ribbon"
-                />
-            </fieldset>
-            <fieldset name="advanced">
-                <field type="spacer" label="PLG_SYS_EPRIVACY_NOT_ADVANCEDTYPE" 
-                       showon="displaytype!:message[AND]displaytype!:confirm[AND]displaytype!:module[AND]displaytype!:modal[AND]displaytype!:ribbon"
-                />
-                <field type="spacer" label="PLG_SYS_EPRIVACY_GEOPLUGIN_INFO_LABEL" description="PLG_SYS_EPRIVACY_GEOPLUGIN_INFO_DESC" 
-                       showon="displaytype:message[OR]displaytype:confirm[OR]displaytype:module[OR]displaytype:modal[OR]displaytype:ribbon"
-                />
-                <field type="radio" name="geoplugin" default="0" label="PLG_SYS_EPRIVACY_GEOPLUGIN_LABEL" description="PLG_SYS_EPRIVACY_GEOPLUGIN_DESC"
-                       showon="displaytype:message[OR]displaytype:confirm[OR]displaytype:module[OR]displaytype:modal[OR]displaytype:ribbon"
-                >
-                    <option value="0">JNo</option>
-                    <option value="1">JYes</option>
-                </field>
-                <field type="radio" name="logaccept" default="0" label="PLG_SYS_EPRIVACY_LOGACCEPT_LABEL" description="PLG_SYS_EPRIVACY_LOGACCEPT_DESC"
-                       showon="displaytype:message[OR]displaytype:confirm[OR]displaytype:module[OR]displaytype:modal[OR]displaytype:ribbon"
-                >
-                    <option value="0">JNo</option>
-                    <option value="1">JYes</option>
-                </field>
-                <field type="accesslevel" name="cookieACL" label="PLG_SYS_EPRIVACY_COOKIEACL_LABEL" description="PLG_SYS_EPRIVACY_COOKIEACL_DESC"
-                       showon="displaytype:message[OR]displaytype:confirm[OR]displaytype:module[OR]displaytype:modal[OR]displaytype:ribbon"
-                />
-                <field type="subform" name="cookiedomains" multiple="true"
-                       label="PLG_SYS_EPRIVACY_COOKIEDOMAINS_LABEL" 
-                       description="PLG_SYS_EPRIVACY_COOKIEDOMAINS_DESC" 
-                       layout="joomla.form.field.subform.repeatable-table"
-                >
-                    <form>
-                        <field name="domain" type="text" 
-                               class="required" 
-                               label="PLG_SYS_EPRIVACY_DOMAIN_LABEL"
-                        />
-                    </form>
-                </field>
-            </fieldset>
-        </fields>
-    </config>
+    <authorEmail>sebastian@jablab.de</authorEmail>
+    <authorUrl>https://www.jablab.de/</authorUrl>
+    <version>3.9.1</version>
+    <description>Deutsche Sprachdateien für das EU e-Privacy Directive System-Plugin von RicheyWeb.</description>
+    <fileset>
+        <files target="language/de-DE">
+            <filename>de-DE.plg_system_eprivacy.ini</filename>
+            <filename>de-DE.plg_system_eprivacy.sys.ini</filename>
+        </files>
+        <files target="administrator/language/de-DE">
+            <filename>de-DE.plg_system_eprivacy.ini</filename>
+            <filename>de-DE.plg_system_eprivacy.sys.ini</filename>
+        </files>
+    </fileset>
 </extension>
