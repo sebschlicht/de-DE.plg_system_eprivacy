@@ -1,4 +1,6 @@
 #!/bin/bash
-rm -f plg_system_eprivacy.zip
-zip -q -9 -x "/.gitignore" -x "/.git/*" -x "/.idea/*" -x "/mkzip.sh" -x "/.mkzip.sh.swp" -x "/updates/*" -r plg_system_eprivacy.zip .
+TARGET='de-DE.plg_system_eprivacy.zip'
+
+rm -f "$TARGET"
+zip -q -9 -x "/.gitignore" -x "/.git/*" -x "/.idea/*" -x "/mkzip.sh" -x "/.mkzip.sh.swp" -x "/updates/*" -r "$TARGET" .
 
